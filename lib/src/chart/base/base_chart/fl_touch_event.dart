@@ -227,6 +227,17 @@ class FlPointerHoverEvent extends FlTouchEvent {
   FlPointerHoverEvent(this.event);
 }
 
+class FlPointerDownEvent extends FlTouchEvent {
+  /// Contains information of happened pointer event
+  final PointerDownEvent event;
+
+  /// Represents the position of happened touch/pointer event
+  @override
+  Offset get localPosition => event.localPosition;
+
+  FlPointerDownEvent(this.event);
+}
+
 /// The pointer has moved with respect to the device while the pointer is or is
 /// not in contact with the device, and exited our chart.
 ///

@@ -65,6 +65,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   LineChartData _withTouchedIndicators(LineChartData lineChartData) {
     if (!lineChartData.lineTouchData.enabled ||
         !lineChartData.lineTouchData.handleBuiltInTouches) {
+      _showingTouchedTooltips.clear();
+      _showingTouchedIndicators.clear();
       return lineChartData;
     }
 
@@ -108,6 +110,16 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     setState(() {
       final sortedLineSpots = List.of(touchResponse.lineBarSpots!);
       sortedLineSpots.sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
+
+      for (var indicators in _showingTouchedTooltips) {
+        for (var item in indicators.showingSpots) {
+          if (sortedLineSpots.any((e) => e.spotIndex == item.spotIndex)) {
+            _showingTouchedTooltips.clear();
+            _showingTouchedIndicators.clear();
+            return;
+          }
+        }
+      }
 
       _showingTouchedIndicators.clear();
       for (var i = 0; i < touchResponse.lineBarSpots!.length; i++) {

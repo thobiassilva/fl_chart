@@ -138,6 +138,28 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       canvasWrapper.restore();
     }
 
+    // Draw blur on right side -----------
+    final rect = Rect.fromCenter(
+      center: Offset(
+        canvasWrapper.size.width,
+        canvasWrapper.size.height / 2,
+      ),
+      width: canvasWrapper.size.width * 0.1,
+      height: canvasWrapper.size.height,
+    );
+
+    canvasWrapper.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.centerRight,
+          end: Alignment.centerLeft,
+          colors: [Colors.white, Colors.white.withOpacity(0.02)],
+          stops: [0.5, 1],
+        ).createShader(rect),
+    );
+    // -----------
+
     // Draw touch tooltip on most top spot
     for (var i = 0; i < data.showingTooltipIndicators.length; i++) {
       var tooltipSpots = data.showingTooltipIndicators[i];
